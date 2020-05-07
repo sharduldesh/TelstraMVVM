@@ -14,7 +14,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 /**
- * methid for fetchinf data from server
+ * method for fetching data from server
  * **/
 class RepositoryViewModel {
     suspend fun retrieveCountryInformation(objCallback: ResponseCallback) {
