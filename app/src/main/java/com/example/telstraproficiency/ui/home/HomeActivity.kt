@@ -30,14 +30,11 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        mViewModelHome =
-            ViewModelProvider(this).get(ViewModelHome::class.java)
+        mViewModelHome = ViewModelProvider(this).get(ViewModelHome::class.java)
         setupDialog()
 
-
         swipeToRefresh.setOnRefreshListener {
-            getBlogFromViewModel()
-
+            getInfo()
         }
 
 
@@ -49,14 +46,12 @@ class HomeActivity : AppCompatActivity() {
         mViewModelHome.countryResponse.observe(this, Observer {
             hideDialog()
             swipeToRefresh.isRefreshing = false
-            if (!it.rows.isEmpty())
+            if (!it.rows.isNullOrEmpty()) {
                 mAdapter.setList(it.rows)
-            else
+            } else {
                 toast(somethingWentWrong)
-
+            }
         })
-
-
     }
 
 
@@ -105,25 +100,20 @@ class HomeActivity : AppCompatActivity() {
     }
 
     /**
-     * This method for get data from the viewModel
+     * get data from the viewModel
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun getBlogFromViewModel() {
-
-
+    private fun getInfo() {
         if (NetworkConnection.isNetworkConnected()) {
             showDialog()
-            mViewModelHome.getBlogInformation()
+            mViewModelHome.getCountryInformation()
         } else {
             if (swipeToRefresh.isRefreshing) {
                 swipeToRefresh.isRefreshing = false
             }
             toast(getString(R.string.device_not_connected_to_internet))
-
         }
-
     }
-
 }
 
 
