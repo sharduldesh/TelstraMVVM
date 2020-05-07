@@ -1,15 +1,16 @@
 package com.example.telstraproficiency.ui.home.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.telstraproficiency.data.callbacks.ResponseCallback
 import com.example.telstraproficiency.data.model.CountryModel
 import com.example.telstraproficiency.data.repository.RepositoryViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.annotations.NotNull
 
 class ViewModelHome(@NotNull application: Application) : AndroidViewModel(application),
@@ -20,21 +21,8 @@ class ViewModelHome(@NotNull application: Application) : AndroidViewModel(applic
 
     init {
         CoroutineScope(IO).launch {
-            Log.d("sadasd", "")
             repositoryViewModel.retrieveCountryInformation(this@ViewModelHome)
-
         }
-
-        /* Coroutines.main{
-             val response = repositoryViewModel.retrieveCountryInformation()
-             if (response != null) {
-                 if(response.isSuccessful) {
-                     countryResponse.postValue(response?.body())
-                     viewModelListner?.onSuccess( countryResponse)
-                 }
-             }
-         }*/
-        //repositoryViewModel.retrieveCountryInformation(this)
     }
 
     /**
@@ -47,7 +35,6 @@ class ViewModelHome(@NotNull application: Application) : AndroidViewModel(applic
     }
 
     override suspend fun onSuccess(data: CountryModel?) {
-        Log.d("onSuccess", "onSuccess")
         withContext(Main) {
             countryResponse.postValue(data)
 
@@ -58,19 +45,6 @@ class ViewModelHome(@NotNull application: Application) : AndroidViewModel(applic
         /* mBlogResponse.value?.error= error.toString()
          mBlogResponse.value?.isError=true*/
     }
-
-    /* Log.d("sadasd","")
-     Coroutines.main{
-         Log.d("sadasd","")
-         val response = repositoryViewModel.retrieveCountryInformation()
-         if (response != null) {
-             if(response.isSuccessful) {
-                 countryResponse.postValue(response?.body())
-
-             }
-         }
-     }*/
-
 }
 
 
