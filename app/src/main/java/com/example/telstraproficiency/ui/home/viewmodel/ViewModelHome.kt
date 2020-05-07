@@ -19,6 +19,9 @@ class ViewModelHome(@NotNull application: Application) : AndroidViewModel(applic
     var countryResponse: MutableLiveData<CountryModel> =
         MutableLiveData<CountryModel>()
 
+    var countryErrorResponse: MutableLiveData<String> =
+        MutableLiveData<String>()
+
     init {
         CoroutineScope(IO).launch {
             repositoryViewModel.retrieveCountryInformation(this@ViewModelHome)
@@ -34,17 +37,17 @@ class ViewModelHome(@NotNull application: Application) : AndroidViewModel(applic
         }
     }
 
+    /**Success response from repository**/
     override suspend fun onSuccess(data: CountryModel?) {
         withContext(Main) {
             countryResponse.postValue(data)
-
         }
     }
-
-    override fun onError(error: String?) {
-        /* mBlogResponse.value?.error= error.toString()
-         mBlogResponse.value?.isError=true*/
+    
+/**Error response from repository**/
+    override suspend fun onError(error: String?) {
+        withContext(Main) {
+            countryErrorResponse.postValue(error)
+        }
     }
 }
-
-
