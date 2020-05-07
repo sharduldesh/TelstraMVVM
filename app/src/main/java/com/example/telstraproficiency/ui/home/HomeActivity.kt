@@ -52,8 +52,15 @@ class HomeActivity : AppCompatActivity() {
                 toast(somethingWentWrong)
             }
         })
-    }
 
+        /**
+         * API error response
+         * */
+        mViewModelHome.countryErrorResponse.observe(this, Observer {
+            hideDialog()
+            toast(it)
+        })
+    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun setupDialog() {
@@ -64,9 +71,7 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
-    /**
-     * Showing dialog when api call
-     */
+    /** Showing dialog when api call */
     private fun showDialog() {
 
         dialog.let {
@@ -76,9 +81,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Hiding dialog
-     */
+    /** Hiding dialog */
     private fun hideDialog() {
         dialog.let {
             if (it.isShowing) {
@@ -99,9 +102,8 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * get data from the viewModel
-     */
+    /** get data from the viewModel */
+    
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getInfo() {
         if (NetworkConnection.isNetworkConnected()) {
@@ -115,5 +117,3 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 }
-
-
