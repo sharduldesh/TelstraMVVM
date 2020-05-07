@@ -7,5 +7,5 @@ import com.example.telstraproficiency.data.model.CountryModel
 interface ResponseCallback
 {
     suspend fun onSuccess(data: CountryModel?)
-    fun onError(error:String?)
+    suspend fun onError(error:String?)
 }
