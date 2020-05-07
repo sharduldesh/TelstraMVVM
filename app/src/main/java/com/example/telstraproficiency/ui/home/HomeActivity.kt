@@ -32,6 +32,7 @@ class HomeActivity : AppCompatActivity() {
 
         mViewModelHome = ViewModelProvider(this).get(ViewModelHome::class.java)
         setupDialog()
+        showDialog()
 
         swipeToRefresh.setOnRefreshListener {
             getInfo()
@@ -53,9 +54,6 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
-        /**
-         * API error response
-         * */
         mViewModelHome.countryErrorResponse.observe(this, Observer {
             hideDialog()
             toast(it)
@@ -103,7 +101,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     /** get data from the viewModel */
-    
+
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getInfo() {
         if (NetworkConnection.isNetworkConnected()) {
