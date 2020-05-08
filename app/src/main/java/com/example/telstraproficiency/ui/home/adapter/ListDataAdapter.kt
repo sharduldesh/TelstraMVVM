@@ -4,14 +4,16 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.library.baseAdapters.BR
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.telstraproficiency.BR
 import com.example.telstraproficiency.R
 import com.example.telstraproficiency.data.model.CountryInfoModelData
 import com.example.telstraproficiency.databinding.ItemLayoutBinding
 
-
+/**
+ * Adapter class for handling list item
+ * */
 class ListDataAdapter(private var items : ArrayList<CountryInfoModelData>, private val context: Context) :
     RecyclerView.Adapter<ListDataAdapter.ViewHolder>() {
 
@@ -49,11 +51,8 @@ class ListDataAdapter(private var items : ArrayList<CountryInfoModelData>, priva
             Glide.with(itemView)
                 .load(data.imageHref)
                 .placeholder(R.drawable.no_image)
-                .fallback(R.drawable.no_image)
-                .error(R.drawable.no_image)
                 .into(binding.imgImage)
             binding.setVariable(BR.data,data)
-            binding.data = data
             binding.executePendingBindings()
         }
     }

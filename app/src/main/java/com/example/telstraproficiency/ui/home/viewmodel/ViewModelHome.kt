@@ -13,6 +13,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jetbrains.annotations.NotNull
 
+
+/**
+ * ViewModel class for home activity
+ * **/
+
 class ViewModelHome(@NotNull application: Application) : AndroidViewModel(application),
     ResponseCallback {
     private var repositoryViewModel: RepositoryViewModel = RepositoryViewModel()
@@ -43,7 +48,7 @@ class ViewModelHome(@NotNull application: Application) : AndroidViewModel(applic
             countryResponse.postValue(data)
         }
     }
-    
+
 /**Error response from repository**/
     override suspend fun onError(error: String?) {
         withContext(Main) {
@@ -51,3 +56,5 @@ class ViewModelHome(@NotNull application: Application) : AndroidViewModel(applic
         }
     }
 }
+
+

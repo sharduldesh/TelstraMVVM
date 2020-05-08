@@ -1,5 +1,9 @@
 package com.example.telstraproficiency.utils
 
+/**
+ * Constant strings class
+ */
+
 class Constant
 {
     companion object {

@@ -6,6 +6,10 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
 
+/**
+ * Interface for calling API methods
+ */
+
 interface ApiInterface
 {
     /**

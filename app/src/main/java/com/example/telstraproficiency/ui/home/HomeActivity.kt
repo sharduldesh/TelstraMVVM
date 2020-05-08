@@ -18,8 +18,9 @@ import com.example.telstraproficiency.utils.toast
 import kotlinx.android.synthetic.main.activity_home.*
 
 /***
- * Activity class
+ * Default Activity class
  * */
+
 class HomeActivity : AppCompatActivity() {
     private lateinit var mViewModelHome: ViewModelHome
     private lateinit var builder: AlertDialog.Builder
@@ -119,3 +120,5 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 }
+
+

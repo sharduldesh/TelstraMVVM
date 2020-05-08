@@ -5,6 +5,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Class for Retrofit instance
+ */
+
+
 object ApiClient {
     private const val API_BASE_URL = "https://dl.dropboxusercontent.com"
     private var servicesApiInterface: ApiInterface? = null
