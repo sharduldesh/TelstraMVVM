@@ -2,6 +2,9 @@ package com.example.telstraproficiency.application
 
 import android.app.Application
 import android.content.Context
+/***
+ * Base application content for application
+ * */
 
 class ApplicationContext : Application() {
     companion object {
