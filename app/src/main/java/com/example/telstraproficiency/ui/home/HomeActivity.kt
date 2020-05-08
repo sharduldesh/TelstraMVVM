@@ -12,11 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.telstraproficiency.R
 import com.example.telstraproficiency.ui.home.adapter.ListDataAdapter
 import com.example.telstraproficiency.ui.home.viewmodel.ViewModelHome
-import com.example.telstraproficiency.utils.Constant.Companion.somethingWentWrong
+import com.example.telstraproficiency.utils.Constant.Companion.unknownError
 import com.example.telstraproficiency.utils.NetworkConnection
 import com.example.telstraproficiency.utils.toast
 import kotlinx.android.synthetic.main.activity_home.*
 
+/***
+ * Activity class
+ * */
 class HomeActivity : AppCompatActivity() {
     private lateinit var mViewModelHome: ViewModelHome
     private lateinit var builder: AlertDialog.Builder
@@ -31,11 +34,11 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         mViewModelHome = ViewModelProvider(this).get(ViewModelHome::class.java)
-        setupDialog()
-        showDialog()
+        setupProgressDialog()
+        showProgressDialog()
 
         swipeToRefresh.setOnRefreshListener {
-            getInfo()
+            getCountryFeatureData()
         }
 
 
@@ -45,23 +48,24 @@ class HomeActivity : AppCompatActivity() {
         country_list.adapter = mAdapter
 
         mViewModelHome.countryResponse.observe(this, Observer {
-            hideDialog()
+            hideProgressDialog()
             swipeToRefresh.isRefreshing = false
             if (!it.rows.isNullOrEmpty()) {
                 mAdapter.setList(it.rows)
             } else {
-                toast(somethingWentWrong)
+                toast(unknownError)
             }
         })
 
         mViewModelHome.countryErrorResponse.observe(this, Observer {
-            hideDialog()
+            hideProgressDialog()
             toast(it)
         })
     }
 
+/**set up loading progress bar**/
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun setupDialog() {
+    private fun setupProgressDialog() {
         builder = AlertDialog.Builder(this)
         builder.setCancelable(false) // if you want user to wait for some process to finish,
         builder.setView(R.layout.layout_loading_dialog)
@@ -70,7 +74,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     /** Showing dialog when api call */
-    private fun showDialog() {
+    private fun showProgressDialog() {
 
         dialog.let {
             if (!it.isShowing) {
@@ -80,7 +84,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     /** Hiding dialog */
-    private fun hideDialog() {
+    private fun hideProgressDialog() {
         dialog.let {
             if (it.isShowing) {
                 it.hide()
@@ -89,7 +93,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
     }
-
+/**onDetroy activity life cycle method**/
     override fun onDestroy() {
         super.onDestroy()
         dialog.let {
@@ -103,15 +107,15 @@ class HomeActivity : AppCompatActivity() {
     /** get data from the viewModel */
 
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun getInfo() {
+    private fun getCountryFeatureData() {
         if (NetworkConnection.isNetworkConnected()) {
-            showDialog()
+            showProgressDialog()
             mViewModelHome.getCountryInformation()
         } else {
             if (swipeToRefresh.isRefreshing) {
                 swipeToRefresh.isRefreshing = false
             }
-            toast(getString(R.string.device_not_connected_to_internet))
+            toast(getString(R.string.no_internet))
         }
     }
 }
